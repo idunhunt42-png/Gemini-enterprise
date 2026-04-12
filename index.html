@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemini Enterprise — 나만의 AI 업무 비서</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0b1120;color:#e2e8f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans KR',sans-serif;width:100%;}
+
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;border-bottom:1px solid #1e2d45;background:#0b1120;position:sticky;top:0;z-index:10;}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:#fff;}
+.logo-mark{width:28px;height:28px;background:#1a56db;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.logo-mark svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2;}
+.nav-links{display:flex;gap:32px;}
+.nav-links a{font-size:13px;color:#64748b;text-decoration:none;cursor:pointer;transition:color .2s;}
+.nav-links a:hover{color:#e2e8f0;}
+.nav-cta{background:#1a56db;color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;}
+
+.hero{padding:88px 48px 72px;text-align:center;border-bottom:1px solid #1e2d45;}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#0d2040;border:1px solid #1a3a6b;color:#4a9eff;font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;margin-bottom:24px;}
+.badge-dot{width:6px;height:6px;background:#4a9eff;border-radius:50%;}
+.hero h1{font-size:46px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:18px;letter-spacing:-0.5px;}
+.hero h1 em{color:#4a9eff;font-style:normal;}
+.hero-sub{font-size:16px;color:#64748b;line-height:1.8;max-width:520px;margin:0 auto 36px;}
+.hero-pill{display:inline-flex;align-items:center;gap:12px;background:#0d2040;border:1px solid #1a3a6b;border-radius:12px;padding:14px 28px;}
+.hero-pill-label{font-size:13px;color:#64748b;}
+.hero-pill-date{font-size:15px;font-weight:700;color:#4a9eff;}
+.hero-pill-divider{width:1px;height:20px;background:#1e2d45;}
+
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);}
+.stat-cell{padding:36px 48px;text-align:center;border-right:1px solid #1e2d45;border-bottom:1px solid #1e2d45;}
+.stat-cell:last-child{border-right:none;}
+.stat-n{font-size:38px;font-weight:700;color:#4a9eff;line-height:1;}
+.stat-l{font-size:12px;color:#475569;margin-top:8px;letter-spacing:.5px;}
+
+.section{padding:72px 48px;border-bottom:1px solid #1e2d45;}
+.sec-eyebrow{font-size:11px;font-weight:600;color:#4a9eff;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+.sec-title{font-size:28px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:10px;}
+.sec-desc{font-size:14px;color:#475569;line-height:1.75;margin-bottom:40px;max-width:500px;}
+
+.step-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;}
+.step-item{padding:28px 20px;border-right:1px solid #1e2d45;}
+.step-item:last-child{border-right:none;}
+.step-num{font-size:11px;font-weight:700;color:#1a56db;letter-spacing:1px;margin-bottom:14px;}
+.step-icon{width:40px;height:40px;background:#0d2040;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:1px solid #1a3a6b;}
+.step-icon svg{width:18px;height:18px;stroke:#4a9eff;fill:none;stroke-width:1.8;}
+.step-name{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:8px;line-height:1.4;}
+.step-note{font-size:12px;color:#475569;line-height:1.6;}
+.step-warn{font-size:11px;color:#f59e0b;margin-top:6px;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.feat-stack{display:flex;flex-direction:column;gap:10px;}
+.feat-row{display:flex;align-items:flex-start;gap:14px;background:#0d1b2e;border-radius:12px;padding:16px 18px;border-left:3px solid #1a56db;}
+.feat-row.green{border-left-color:#10b981;}
+.feat-row.amber{border-left-color:#f59e0b;}
+.feat-row.purple{border-left-color:#8b5cf6;}
+.feat-row.pink{border-left-color:#ec4899;}
+.feat-ico{width:34px;height:34px;background:#0b1120;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.feat-ico svg{width:16px;height:16px;stroke-width:1.8;fill:none;}
+.feat-title{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:3px;}
+.feat-quote{font-size:12px;color:#475569;font-style:italic;}
+.nb-card{background:#0d1b2e;border:1px solid #1a3a6b;border-radius:12px;padding:16px 18px;margin-top:10px;display:flex;gap:12px;}
+.nb-ico{width:32px;height:32px;background:#0b1120;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nb-ico svg{width:15px;height:15px;stroke:#4a9eff;fill:none;stroke-width:1.8;}
+.nb-txt{font-size:12px;color:#475569;line-height:1.65;}
+.nb-txt strong{color:#94a3b8;}
+
+.tip-stack{display:flex;flex-direction:column;gap:14px;}
+.tip-card{background:#0d1b2e;border-radius:12px;padding:18px 20px;border:1px solid #1e2d45;}
+.tip-label{font-size:11px;font-weight:600;color:#4a9eff;letter-spacing:1px;margin-bottom:10px;}
+.tip-bad{background:#0b1120;border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:2px solid #ef4444;}
+.tip-good{background:#0b1120;border-radius:8px;padding:10px 12px;border-left:2px solid #10b981;}
+.tip-tag{font-size:10px;color:#475569;margin-bottom:3px;}
+.tip-text{font-size:12px;color:#94a3b8;line-height:1.6;}
+.tip-simple{font-size:12px;color:#475569;line-height:1.7;}
+
+.agent-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.agent-card{background:#0d1b2e;border:1px solid #1e2d45;border-radius:14px;padding:24px;border-top:2px solid #1a56db;}
+.agent-card.g{border-top-color:#10b981;}
+.agent-card.y{border-top-color:#f59e0b;}
+.agent-card.r{border-top-color:#ef4444;}
+.agent-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.agent-ico{width:36px;height:36px;background:#0b1120;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.agent-ico svg{width:17px;height:17px;fill:none;stroke-width:1.8;}
+.agent-name{font-size:14px;font-weight:700;color:#fff;}
+.agent-desc{font-size:12px;color:#475569;line-height:1.65;margin-bottom:14px;}
+.agent-example{background:#0b1120;border-radius:8px;padding:10px 12px;}
+.agent-ex-label{font-size:10px;font-weight:600;color:#4a9eff;letter-spacing:1px;margin-bottom:5px;}
+.agent-ex-text{font-size:12px;color:#94a3b8;line-height:1.6;font-style:italic;}
+
+.security-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+.sec-card{background:#0d1b2e;border:1px solid #1e2d45;border-radius:14px;padding:22px;}
+.sec-card-icon{width:38px;height:38px;background:#0b1120;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.sec-card-icon svg{width:18px;height:18px;fill:none;stroke-width:1.8;}
+.sec-card-title{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:10px;}
+.sec-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.sec-list li{font-size:12px;color:#475569;padding-left:12px;position:relative;line-height:1.6;}
+.sec-list li::before{content:"·";position:absolute;left:0;color:#4a9eff;font-weight:700;}
+
+.contact-row-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.contact-card{background:#0d1b2e;border:1px solid #1e2d45;border-radius:12px;padding:18px 20px;display:flex;gap:12px;align-items:flex-start;}
+.cc-ico{width:34px;height:34px;background:#0b1120;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cc-ico svg{width:15px;height:15px;stroke:#4a9eff;fill:none;stroke-width:1.8;}
+.cc-title{font-size:12px;font-weight:600;color:#e2e8f0;margin-bottom:4px;}
+.cc-val{font-size:12px;color:#475569;line-height:1.55;}
+
+.footer{padding:28px 48px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #1e2d45;}
+.footer-l{font-size:12px;color:#2d3f56;}
+.footer-r{font-size:12px;color:#2d3f56;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    Gemini Enterprise
+  </div>
+  <div class="nav-links">
+    <a href="#install">계정 설치</a>
+    <a href="#features">주요 기능</a>
+    <a href="#agents">에이전트</a>
+    <a href="#security">보안 가이드</a>
+    <a href="#contact">문의</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('install').scrollIntoView({behavior:'smooth'})">지금 시작하기</button>
+</nav>
+
+<section class="hero">
+  <div class="badge"><span class="badge-dot"></span> 공지 · 일하는 방식의 혁신</div>
+  <h1>나만의 AI 업무 비서,<br><em>Gemini Enterprise</em></h1>
+  <p class="hero-sub">단순 반복 업무는 Gemini에게 맡기고,<br>여러분은 더 중요한 창의적인 일에 집중하세요.</p>
+  <div class="hero-pill">
+    <span class="hero-pill-label">배포 시작일</span>
+    <div class="hero-pill-divider"></div>
+    <span class="hero-pill-date">2026년 4월 14일 (화)</span>
+    <div class="hero-pill-divider"></div>
+    <span class="hero-pill-label">전사 적용</span>
+  </div>
+</section>
+
+<div class="stats-row">
+  <div class="stat-cell"><div class="stat-n">4.14</div><div class="stat-l">배포 시작일</div></div>
+  <div class="stat-cell"><div class="stat-n">전사</div><div class="stat-l">적용 범위</div></div>
+  <div class="stat-cell"><div class="stat-n">200%</div><div class="stat-l">활용 목표</div></div>
+</div>
+
+<section class="section" id="install">
+  <div class="sec-eyebrow">INSTALLATION</div>
+  <div class="sec-title">계정 생성 및 설치 가이드</div>
+  <div class="sec-desc">원활한 시스템 사용을 위한 계정 등록 및 앱 설치 과정을 안내해 드립니다. 5단계 순서대로 진행해 주세요.</div>
+  <div class="step-grid">
+    <div class="step-item">
+      <div class="step-num">STEP 01</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div>
+      <div class="step-name">구글 새 계정 로그인</div>
+      <div class="step-note">조직 계정 안내 메일 확인 후 [로그인] 버튼 클릭</div>
+      <div class="step-warn">⚠ 링크는 48시간 후 만료</div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">STEP 02</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <div class="step-name">약관 동의 및 비밀번호 생성</div>
+      <div class="step-note">관리자 권한 동의 후 안전한 새 비밀번호 설정</div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">STEP 03</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
+      <div class="step-name">크롬 회사 계정 로그인</div>
+      <div class="step-note">@hyundaielevator.co.kr 계정으로 크롬 프로필 추가</div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">STEP 04</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="4"/></svg></div>
+      <div class="step-name">데이터 동기화 설정</div>
+      <div class="step-note">북마크·확장 프로그램·방문 기록 동기화 [사용] 클릭</div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">STEP 05</div>
+      <div class="step-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9 9 4 9 9z"/></svg></div>
+      <div class="step-name">Gemini Enterprise 앱 확인</div>
+      <div class="step-note">작업 표시줄 또는 '최근 추가된 앱'에서 아이콘 확인</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="two-col">
+    <div>
+      <div class="sec-eyebrow">FEATURES</div>
+      <div class="sec-title">Gemini Enterprise,<br>이렇게 활용하세요</div>
+      <div class="sec-desc">단순 챗봇이 아닙니다. 거의 모든 업무를 도와주는 만능 AI 비서입니다.</div>
+      <div class="feat-stack">
+        <div class="feat-row">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" stroke="#4a9eff"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div><div class="feat-title">보고서 / 이메일 작성</div><div class="feat-quote">"다음 주 회의의 보고서 초안 만들어줘."</div></div>
+        </div>
+        <div class="feat-row green">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" stroke="#10b981"><path d="M4 6h16M4 12h16M4 18h7"/></svg></div>
+          <div><div class="feat-title">방대한 자료 요약</div><div class="feat-quote">"이 100페이지 PDF, 핵심만 3줄로 요약해 줘."</div></div>
+        </div>
+        <div class="feat-row amber">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" stroke="#f59e0b"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          <div><div class="feat-title">아이디어 발상</div><div class="feat-quote">"신제품 런칭 프로모션 아이디어 10개만 제안해 줘."</div></div>
+        </div>
+        <div class="feat-row purple">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" stroke="#8b5cf6"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+          <div><div class="feat-title">전문 리서치</div><div class="feat-quote">"글로벌 경쟁사의 최신 기술 동향을 리서치해 줘."</div></div>
+        </div>
+        <div class="feat-row pink">
+          <div class="feat-ico"><svg viewBox="0 0 24 24" stroke="#ec4899"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></div>
+          <div><div class="feat-title">외국어 / 번역</div><div class="feat-quote">"이 국문 이메일, 세련된 비즈니스 영어로 번역해 줘."</div></div>
+        </div>
+      </div>
+      <div class="nb-card">
+        <div class="nb-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="nb-txt">회사 내부 자료를 기반으로 답변하는 <strong>NotebookLM</strong>은 보안 걱정 없이 가장 정확하고 신뢰도 높은 결과를 제공합니다.</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-eyebrow">HOW TO USE</div>
+      <div class="sec-title">200% 활용 팁</div>
+      <div class="sec-desc">구체적인 맥락과 함께 질문할수록 더 좋은 결과를 얻습니다.</div>
+      <div class="tip-stack">
+        <div class="tip-card">
+          <div class="tip-label">01 · 구체적으로 질문하기</div>
+          <div class="tip-bad">
+            <div class="tip-tag">비추천</div>
+            <div class="tip-text">"마케팅 자료 만들어 줘."</div>
+          </div>
+          <div class="tip-good">
+            <div class="tip-tag">추천</div>
+            <div class="tip-text">"강남 아파트 단지 입주자 협의회 또는 관리사무소 타겟 마케팅 문구 5가지 스타일로 작성해줘."</div>
+          </div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-label">02 · 파일을 적극 활용하기</div>
+          <div class="tip-simple">엑셀·PDF 파일을 업로드하고 분기별 매출 성장률 계산, 보고서 3줄 요약 등을 요청하세요.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-label">03 · 업무 파트너로 대하기</div>
+          <div class="tip-simple">이메일 초안, 회의록 요약, 보고서 개요, 코드 리뷰 등 실질적인 업무를 맡겨보세요.</div>
+        </div>
+        <div class="tip-card">
+          <div class="tip-label">04 · 결과물 반복 다듬기</div>
+          <div class="tip-simple">"전문적인 톤으로 바꿔줘", "이 부분은 제외하고 다시 작성해 줘"처럼 추가 요청으로 완성도를 높이세요.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="agents">
+  <div class="sec-eyebrow">AGENTS</div>
+  <div class="sec-title">핵심 기능: 에이전트 활용법</div>
+  <div class="sec-desc">특정 업무에 특화된 전문 AI 비서입니다. 목적에 맞는 에이전트를 선택하여 업무 효율을 극대화하세요.</div>
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-head">
+        <div class="agent-ico"><svg viewBox="0 0 24 24" stroke="#4a9eff" fill="none" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+        <div class="agent-name">Deep Research</div>
+      </div>
+      <div class="agent-desc">신뢰도 높은 출처를 바탕으로 특정 주제의 심층 리서치와 종합 보고서를 생성합니다.</div>
+      <div class="agent-example">
+        <div class="agent-ex-label">예시 프롬프트</div>
+        <div class="agent-ex-text">"글로벌 승강기 산업의 미래 기술 동향과 시장 전망, AI·IoT·지속가능성 측면에서 분석해 줘."</div>
+      </div>
+    </div>
+    <div class="agent-card g">
+      <div class="agent-head">
+        <div class="agent-ico"><svg viewBox="0 0 24 24" stroke="#10b981" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="agent-name">Idea Generation</div>
+      </div>
+      <div class="agent-desc">새로운 아이디어나 창의적 해결책이 필요할 때 다각도의 브레인스토밍 파트너가 되어 줍니다.</div>
+      <div class="agent-example">
+        <div class="agent-ex-label">예시 프롬프트</div>
+        <div class="agent-ex-text">"직원 소속감·자부심을 높이는 사내 캠페인 아이디어, 전 직원이 쉽게 참여할 수 있는 10가지 제안해 줘."</div>
+      </div>
+    </div>
+    <div class="agent-card y">
+      <div class="agent-head">
+        <div class="agent-ico"><svg viewBox="0 0 24 24" stroke="#f59e0b" fill="none" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div class="agent-name">NotebookLM</div>
+      </div>
+      <div class="agent-desc">직접 업로드한 자료(PDF, Docx 등)에만 근거하여 높은 정확성으로 요약 및 분석합니다. 내부 문서·민감 정보에 최적.</div>
+      <div class="agent-example">
+        <div class="agent-ex-label">예시 프롬프트</div>
+        <div class="agent-ex-text">"(보고서 업로드 후) 핵심 내용 3가지 요약, 다음 분기 영업팀 주요 액션 아이템은 뭐야?"</div>
+      </div>
+    </div>
+    <div class="agent-card r">
+      <div class="agent-head">
+        <div class="agent-ico"><svg viewBox="0 0 24 24" stroke="#ef4444" fill="none" stroke-width="1.8"><path d="M12 2l9 4.5v9L12 22l-9-6.5V6.5L12 2z"/></svg></div>
+        <div class="agent-name">새 에이전트 (맞춤형 AI)</div>
+      </div>
+      <div class="agent-desc">우리 팀 전용 맞춤형 AI 비서를 직접 제작합니다. 역할·지식·응답 형식을 설정하면 팀 전용 Q&A 봇 완성.</div>
+      <div class="agent-example">
+        <div class="agent-ex-label">활용 예시</div>
+        <div class="agent-ex-text">승강기 안전 규정 Q&A 봇, 인사 규정 에이전트, 영업팀 제품 지식 에이전트</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="security">
+  <div class="sec-eyebrow">SECURITY</div>
+  <div class="sec-title">정보보안 및 활용 가이드</div>
+  <div class="sec-desc">임직원 여러분의 철저한 보안 준수가 안전한 디지털 혁신을 만듭니다.</div>
+  <div class="security-grid">
+    <div class="sec-card">
+      <div class="sec-card-icon"><svg viewBox="0 0 24 24" stroke="#ef4444" fill="none" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="sec-card-title">데이터 입력 주의사항</div>
+      <ul class="sec-list">
+        <li>고객 성명·주민번호·연락처 등 개인정보는 반드시 마스킹 후 입력</li>
+        <li>미공개 사업 전략·대외비 문서 등 보안 등급 높은 데이터 직접 입력 제한</li>
+        <li>사내 공식 계정으로만 로그인, 공용 환경 이용 시 반드시 로그아웃</li>
+      </ul>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-icon"><svg viewBox="0 0 24 24" stroke="#f59e0b" fill="none" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <div class="sec-card-title">파일 업로드 및 분석</div>
+      <ul class="sec-list">
+        <li>내부 자료·민감 정보 처리 시 보안 및 정확성 우선 확보</li>
+        <li>AI 결과물은 원본 문서와 대조하여 근거 페이지 교차 검증</li>
+        <li>새 에이전트 배포 시 팀원별 적절한 접근 권한 설정 필수</li>
+      </ul>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-icon"><svg viewBox="0 0 24 24" stroke="#10b981" fill="none" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+      <div class="sec-card-title">결과물 활용 준수사항</div>
+      <ul class="sec-list">
+        <li>이메일 초안·보고서 목차 구성 등 실질적 업무 보조로 활용</li>
+        <li>첫 답변이 완벽하지 않으면 추가 요구사항으로 완성도를 높이기</li>
+        <li>모든 활용 과정에서 회사 보안 규정 반드시 준수</li>
+      </ul>
+    </div>
+  </div>
+  <div class="contact-row-wrap" id="contact">
+    <div class="contact-card">
+      <div class="cc-ico"><svg viewBox="0 0 24 24" stroke="#4a9eff" fill="none" stroke-width="1.8"><path d="M3 5h18M3 9h18M3 13h12"/></svg></div>
+      <div><div class="cc-title">디지털기획팀 메일</div><div class="cc-val">ai_chatbot@hyundaielevator.com</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="cc-ico"><svg viewBox="0 0 24 24" stroke="#4a9eff" fill="none" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div><div class="cc-title">팀즈(Teams) 채널</div><div class="cc-val">'Gemini Enterprise 사용자 지원' 채널</div></div>
+    </div>
+    <div class="contact-card">
+      <div class="cc-ico"><svg viewBox="0 0 24 24" stroke="#4a9eff" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div><div class="cc-title">사내 포털</div><div class="cc-val">AI 활용 가이드 게시판</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">
+  <div class="footer-l">© 2026 Hyundai Elevator. All rights reserved.</div>
+  <div class="footer-r">디지털기획팀</div>
+</div>
+
+</body>
+</html>
